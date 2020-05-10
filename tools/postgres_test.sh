@@ -24,10 +24,10 @@ reset=${1-no}
 if [ "$reset" == "yes" ]
 then
   echo "Resetting database"
-  docker container exec -it smartweb-postgres-test psql -h localhost -d smartweb_test -U gmu -a -q -f /reset_database.sql
+  docker container exec -i smartweb-postgres-test psql -h localhost -d smartweb_test -U gmu -a -q -f /reset_database.sql
 fi
-docker container exec -it smartweb-postgres-test psql -h localhost -d smartweb_test -U gmu -a -q -f /create_table_scripts.sql
-docker container exec -it smartweb-postgres-test psql -h localhost -d smartweb_test -U gmu -a -q -f /insert_rows_scripts.sql
+docker container exec -i smartweb-postgres-test psql -h localhost -d smartweb_test -U gmu -a -q -f /create_table_scripts.sql
+docker container exec -i smartweb-postgres-test psql -h localhost -d smartweb_test -U gmu -a -q -f /insert_rows_scripts.sql
 
 
 
