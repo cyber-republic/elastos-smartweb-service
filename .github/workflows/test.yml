@@ -48,7 +48,7 @@ jobs:
         ./postgres_test.sh yes
         cd ..
         
-    - name: Install virtualenv
+    - name: Install virtualenv and Run Unit Test
       run: | 
         virtualenv -p `which python3` venv
         source venv/bin/activate
@@ -56,10 +56,11 @@ jobs:
         export PYTHONPATH="$PYTHONPATH:$PWD/grpc_adenine/stubs/"
         cp .env.example .env
         cp .env.example .env.test
-      
-    - name: Run Unit Test
-      run : |
         sh test.sh
+      
+    #- name: Run Unit Test
+      #run : 
+        #sh test.sh
         
     - name: Docker cleanup
       run: |
