@@ -1,0 +1,67 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: SmartWebService
+
+on:
+  push:
+    branches: [ github_actions ]
+  pull_request:
+    branches: [ github_actions ]
+
+jobs:
+  test:
+    name: Running Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: github_actions
+      
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install Python tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install python3
+        sudo apt-get install python3-setuptools 
+        sudo apt-get install python3-pip
+        sudo pip3 install virtualenv
+          
+    - name: Install Docker
+      run: |
+        sudo apt-get remove docker docker-engine docker.io
+        sudo apt install docker.io
+        sudo systemctl unmask docker
+        sudo systemctl start docker
+        sudo systemctl enable docker
+        docker --version
+        
+    - name: Start Database
+      run: |
+        cd tools
+        ./postgres_test.sh yes
+        cd ..
+        
+    - name: Install virtualenv
+      run: | 
+        virtualenv -p `which python3` venv
+        source venv/bin/activate
+        pip3 install -r requirements.txt
+        export PYTHONPATH="$PYTHONPATH:$PWD/grpc_adenine/stubs/"
+        cp .env.example .env
+        cp .env.example .env.test
+      
+    - name: Run Unit Test
+      run : |
+        sh test.sh
+        
+    - name: Docker cleanup
+      run: |
+        docker container rm -f smartweb-postgres-test
+        deactivate
