@@ -27,6 +27,7 @@ jobs:
     
     - name: Install Python tools
       run: |
+        uname -a
         sudo apt-get clean && sudo apt-get update
         sudo apt-get upgrade
         sudo apt autoremove
