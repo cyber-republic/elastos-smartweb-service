@@ -27,8 +27,9 @@ jobs:
     
     - name: Install Python tools
       run: |
+        sudo apt-get clean && sudo apt-get update
+        sudo apt-get upgrade
         sudo apt autoremove
-        sudo apt-get update
         sudo apt-get install python3
         sudo apt-get install python3-setuptools 
         sudo apt-get install python3-pip
@@ -50,11 +51,11 @@ jobs:
         ./postgres_test.sh yes
         cd ..
         
-    - name: Start Private Net
-      run: |
-        docker build -t cyberrepublic/elastos-smartweb-service .
-        docker container stop elastos-smartweb-service || true && docker container rm -f elastos-smartweb-service || true
-        docker run --name elastos-smartweb-service -v "$PWD/.env:/elastos-smartweb-service/.env" -p 8001:8001 cyberrepublic/elastos-smartweb-service:latest
+    #- name: Start Private Net
+    #  run: |
+    #    docker build -t cyberrepublic/elastos-smartweb-service .
+    #    docker container stop elastos-smartweb-service || true && docker container rm -f elastos-smartweb-service || true
+    #    docker run --name elastos-smartweb-service -v "$PWD/.env:/elastos-smartweb-service/.env" -p 8001:8001 cyberrepublic/elastos-smartweb-service:latest
         
     - name: Install virtualenv and Run Unit Test
       run: | 
