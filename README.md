@@ -165,7 +165,7 @@ docker push gcr.io/careful-pillar-269322/elastos-smartweb-service:latest;
 # Deploy the docker container going to https://console.cloud.google.com/run
 
 # Deploy Endpoints config
-gcloud config set project PROJECT_ID
+gcloud config set project careful-pillar-269322
 gcloud endpoints services deploy api_descriptor.pb api_config.yaml;
 
 # Enable certain services
@@ -174,9 +174,9 @@ gcloud services enable servicecontrol.googleapis.com
 gcloud services enable endpoints.googleapis.com
 
 # Build and run a new esp image
-./gcloud_build_image.sh -s elastos-smartweb-service-endpoint-jgdewju65a-uk.a.run.app -c 2020-06-04r0 -p careful-pillar-269322;
+./gcloud_build_image.sh -s elastos-smartweb-service-endpoint-jgdewju65a-uk.a.run.app -c 2020-07-09r0 -p careful-pillar-269322;
 gcloud run deploy elastos-smartweb-service-endpoint \
-  --image="gcr.io/careful-pillar-269322/endpoints-runtime-serverless:elastos-smartweb-service-endpoint-jgdewju65a-uk.a.run.app-2020-06-04r0" \
+  --image="gcr.io/careful-pillar-269322/endpoints-runtime-serverless:elastos-smartweb-service-endpoint-jgdewju65a-uk.a.run.app-2020-07-09r0" \
   --set-env-vars=ESPv2_ARGS=--cors_preset=basic \
   --allow-unauthenticated \
   --platform managed \
